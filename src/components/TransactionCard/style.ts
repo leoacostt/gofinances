@@ -1,9 +1,13 @@
 import styled from 'styled-components/native'
-import { Feather } from '@expo/vector-icons'
+import  { Feather } from '@expo/vector-icons'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 interface TransactionsProps {
     type: 'negative' | 'positive'
+}
+
+interface IconProps {
+    type: 'icon',
 }
 
 export const Container = styled.View`
@@ -35,10 +39,14 @@ export const Category = styled.View `
     align-items: center;
 
 `;
-export const Icon = styled(Feather) `
+export const Icon = styled(Feather).attrs(({name,color,theme,...rest})=>({
+    name:name || 'power',
+    color: color || theme.colors.text,
+    ...rest
+  }))<IconProps>`
     font-size: ${RFValue(20)}px;
-    color: ${({ theme}) => theme.colors.text};
 `;
+
 export const CategoryName = styled.Text `
     font-size: ${RFValue(14)}px;
     color: ${({ theme}) => theme.colors.text};

@@ -1,9 +1,13 @@
 import styled from 'styled-components/native'
-import  { FlatList } from 'react-native'
+import  { FlatList, FlatListProps } from 'react-native'
 import { Feather } from '@expo/vector-icons';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper'
 import { DatalistProps } from '.'
+
+interface IconProps {
+    type: 'icon',
+}
  
 export const Container = styled.View `
     flex: 1;
@@ -55,11 +59,14 @@ export const UserName = styled.Text`
 
 `;
 
-export const Icon = styled(Feather)`
-    color: ${({ theme }) => theme.colors.secondary};
+export const Icon = styled(Feather).attrs(({name, color, theme, ...rest}) => ({
+    name: name || 'power',
+    color: color || theme.colors.secondary,
+    ...rest
+}))<IconProps>`
+    /* color: ${({ theme }) => theme.colors.secondary}; */
     font-size: ${RFValue(24)}px;
-` as unknown as typeof Feather;
-
+` 
 export const HighligthCards = styled.ScrollView`
     width: 100%;
     position: absolute;
@@ -81,7 +88,7 @@ export const Title = styled.Text`
 `;
 
 export const TransactionsList = styled(
-    FlatList as new () => FlatList<DatalistProps>
+    FlatList as new (props: FlatListProps<DatalistProps>) => FlatList<DatalistProps>
     ).attrs({
     showsVerticalScrollIndicator: false,
     contentContainerStyle: {
